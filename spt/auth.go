@@ -53,6 +53,13 @@ type payload struct {
 }
 
 func InitClient() error {
+	clientID := os.Getenv("SPOTIFY_ID")
+	clientSecret := os.Getenv("SPOTIFY_SECRET")
+	if clientID == "" || clientSecret == "" {
+		err := errors.New("client_id and/or client_secret are missing. Please make sure you have set the SPOTIFY_ID and SPOTIFY_SECRET environment variables")
+		return err
+	}
+
 	token := &oauth2.Token{}
 
 	// shouldn't be nil if the file doesn't exist.
