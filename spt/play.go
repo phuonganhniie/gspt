@@ -69,3 +69,28 @@ func Next() error {
 func Previous() error {
 	return Client.Previous(ctx())
 }
+
+func Shuffle() error {
+	s, err := GetPlayerState()
+
+	if err != nil {
+		return err
+	}
+
+	return Client.Shuffle(ctx(), !s.ShuffleState)
+}
+
+func Repeat() error {
+	s, err := GetPlayerState()
+
+	if err != nil {
+		return err
+	}
+
+	next := map[string]string{
+		"context": "track",
+		"track":   "off",
+		"off":     "context",
+	}
+	return Client.Repeat(ctx(), next[s.RepeatState])
+}
